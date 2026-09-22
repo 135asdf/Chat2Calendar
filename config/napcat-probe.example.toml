@@ -1,0 +1,37 @@
+# Copy this file to config/napcat-probe.toml. Do not put the Access Token here.
+# Set it in CHAT2CALENDAR_NAPCAT_TOKEN before starting the probe.
+
+[server]
+host = "127.0.0.1"
+port = 8765
+path = "/onebot/v11/ws"
+access_token_env = "CHAT2CALENDAR_NAPCAT_TOKEN"
+expected_self_id = "REPLACE_WITH_LOGGED_IN_QQ"
+
+[source]
+# The Phase 0 message-reception check uses this one source conversation.
+message_type = "private" # "private" or "group"
+id = "REPLACE_WITH_SOURCE_QQ_OR_GROUP"
+
+[output]
+directory = "../data/phase0"
+action_timeout_seconds = 15
+
+# This verifies the self-chat route. The event emitted for the returned
+# message_id must have this route for target_route_match to become true.
+[test_targets.self]
+action = "send_private_msg"
+params = { user_id = "${self_id}", message = "[Chat2Calendar:PHASE0:${probe_id}] self-send test" }
+expected_message_type = "private"
+expected_conversation_id = "${self_id}"
+
+# Keep this disabled until NapCat's real OneBot event reveals a distinct route
+# for "My Computer". A duplicate self route is rejected instead of counted as
+# a successful control-channel test.
+[test_targets.my_computer]
+enabled = false
+action = "REPLACE_WITH_OBSERVED_ONEBOT_ACTION"
+params = { user_id = "REPLACE_WITH_OBSERVED_TARGET", message = "[Chat2Calendar:PHASE0:${probe_id}] my-computer test" }
+expected_message_type = "REPLACE_WITH_OBSERVED_MESSAGE_TYPE"
+expected_conversation_id = "REPLACE_WITH_OBSERVED_CONVERSATION_ID"
+# expected_sub_type = "REPLACE_WITH_OBSERVED_SUB_TYPE"
