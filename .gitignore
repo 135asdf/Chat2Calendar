@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local NapCat credentials and captured OneBot events must never be committed.
+config/napcat-probe.toml
+data/phase0/*
+!data/phase0/.gitkeep

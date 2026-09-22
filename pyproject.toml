@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "chat2calendar-phase0"
+version = "0.1.0"
+description = "NapCat / OneBot 11 feasibility probe for Chat2Calendar"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = { file = "LICENSE" }
+dependencies = [
+  "websockets>=14,<16",
+]
+
+[project.scripts]
+chat2calendar-napcat-probe = "chat2calendar_phase0.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/chat2calendar_phase0"]
